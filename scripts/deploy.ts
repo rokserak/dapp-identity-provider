@@ -20,6 +20,13 @@ async function main() {
   await greeter.deployed()
 
   console.log('Greeter deployed to:', greeter.address)
+
+  const identityProvider = await ethers.getContractFactory('IdentityProvider')
+  const provider = await identityProvider.deploy()
+
+  await provider.deployed()
+
+  console.log('Identity Provider deployed to:', provider.address)
 }
 
 // We recommend this pattern to be able to use async/await everywhere

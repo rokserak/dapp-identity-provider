@@ -43,7 +43,7 @@
     "node": "hardhat node --watch",
     "frontend": "cd frontend && yarn start",
     "build": "hardhat compile",
-    "lint": "prettier \"**/*.ts*\" --write && eslint --ext .ts* --fix"
+    "lint": "prettier \"**/*.ts*\" --write && eslint --ext .ts,.tsx --fix"
   },
   "repository": {
     "type": "git",
