@@ -1,7 +1,8 @@
 {
-  "name": "hardhat-project",
+  "name": "dapp-identity-provider",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
+    "@nomiclabs/hardhat-etherscan": "^2.1.8",
     "@nomiclabs/hardhat-waffle": "^2.0.0",
     "@openzeppelin/contracts": "^3.2.0",
     "@symfoni/hardhat-react": "^0.1.14",
@@ -9,13 +10,28 @@
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.0.4",
     "@types/node": "^14.14.9",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
     "chai": "^4.2.0",
+    "dotenv": "^10.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.1",
+    "eslint-plugin-promise": "^5.2.0",
     "ethereum-waffle": "^3.2.0",
     "ethers": "^5.5.4",
-    "hardhat": "^2.0.8",
+    "hardhat": "^2.8.3",
     "hardhat-deploy": "^0.7.0-beta.44",
     "hardhat-deploy-ethers": "^0.3.0-beta.7",
+    "hardhat-gas-reporter": "^1.0.7",
     "hardhat-typechain": "^0.3.4",
+    "prettier": "^2.5.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.13",
+    "solhint": "^3.3.6",
+    "solidity-coverage": "^0.7.18",
     "ts-generator": "^0.1.1",
     "ts-morph": "^9.0.0",
     "ts-node": "^9.0.0",
@@ -23,19 +39,16 @@
     "typescript": "^4.1.2"
   },
   "scripts": {
-    "test": "npx hardhat test",
-    "node": "npx hardhat node --watch",
-    "frontend": "cd frontend && npm run start"
+    "test": "hardhat test",
+    "node": "hardhat node --watch",
+    "frontend": "cd frontend && yarn start",
+    "build": "hardhat compile",
+    "lint": "prettier \"**/*.ts*\" --write && eslint --ext .ts* --fix"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/symfoni/hardhat-react-boilerplate.git"
+    "url": "git+https://github.com/rokserak/dapp-identity-provider.git"
   },
-  "author": "Robertosnap",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/symfoni/hardhat-react-boilerplate/issues"
-  },
-  "homepage": "https://github.com/symfoni/hardhat-react-boilerplate#readme",
-  "dependencies": {}
+  "author": "rokserak",
+  "license": "GPL-3.0-only"
 }
