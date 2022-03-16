@@ -3,6 +3,7 @@ import logo from './logo.svg'
 import './App.css'
 import { Symfoni } from './hardhat/SymfoniContext'
 import { Greeter } from './components/Greeter'
+import { Storage } from './components/Storage'
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
           <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
             Learn React
           </a>
-          <Greeter></Greeter>
+          {/*<Greeter />*/}
+          <Storage />
         </Symfoni>
       </header>
     </div>
