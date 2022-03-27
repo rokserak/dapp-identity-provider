@@ -27,6 +27,7 @@ export const Storage: React.FC<Props> = () => {
     })
   }, [])
 
+  // TODO save file reference into smart contract
   const addFile = () => {
     const blob = new Blob(['Hello, world!'], { type: 'text/plain' })
     const file = new File([blob], 'welcome.txt', {

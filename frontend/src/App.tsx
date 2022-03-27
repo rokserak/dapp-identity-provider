@@ -4,6 +4,7 @@ import './App.css'
 import { Symfoni } from './hardhat/SymfoniContext'
 import { Greeter } from './components/Greeter'
 import { Storage } from './components/Storage'
+import { IdentityForm } from './components/IdentityForm'
 
 function App() {
   return (
@@ -11,14 +12,10 @@ function App() {
       <header className="App-header">
         <Symfoni autoInit={true}>
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-            Learn React
-          </a>
+
           {/*<Greeter />*/}
-          <Storage />
+          {/*<Storage />*/}
+          <IdentityForm />
         </Symfoni>
       </header>
     </div>
