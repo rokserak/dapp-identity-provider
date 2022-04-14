@@ -2,8 +2,6 @@ import React from 'react'
 import logo from './logo.svg'
 import './App.css'
 import { Symfoni } from './hardhat/SymfoniContext'
-import { Greeter } from './components/Greeter'
-import { Storage } from './components/Storage'
 import { IdentityForm } from './components/IdentityForm'
 
 function App() {
@@ -13,8 +11,6 @@ function App() {
         <Symfoni autoInit={true}>
           <img src={logo} className="App-logo" alt="logo" />
 
-          {/*<Greeter />*/}
-          {/*<Storage />*/}
           <IdentityForm />
         </Symfoni>
       </header>

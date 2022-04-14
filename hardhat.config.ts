@@ -37,6 +37,9 @@ const config: HardhatUserConfig = {
       accounts: {
         mnemonic: 'test test test test test test test test test test test junk', // test test test test test test test test test test test junk
       },
+      forking: {
+        url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      },
     },
     // hardhat: {
     //   accounts: [
