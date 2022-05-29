@@ -3,6 +3,7 @@ import logo from './logo.svg'
 import './App.css'
 import { Symfoni } from './hardhat/SymfoniContext'
 import { IdentityForm } from './components/IdentityForm'
+import { IdentityProfile } from "./components/IdentityProfile";
 
 function App() {
   return (
@@ -11,7 +12,11 @@ function App() {
         <Symfoni autoInit={true}>
           <img src={logo} className="App-logo" alt="logo" />
 
-          <IdentityForm />
+          {/*<IdentityForm />*/}
+          {/**/}
+          {/*<h1>Profile start</h1>*/}
+
+          <IdentityProfile />
         </Symfoni>
       </header>
     </div>

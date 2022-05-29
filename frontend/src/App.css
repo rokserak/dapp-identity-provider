@@ -14,14 +14,12 @@
 }
 
 .App-header {
-  /*background-color: #282c34;*/
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: calc(10px + 1.5vmin);
 }
 
 .App-link {
@@ -45,4 +43,22 @@
 .grid-row {
   grid-column-start: 1;
   grid-column-end: 1;
+}
+
+.address-text {
+  font-size: calc(4px + 1vmin);
+}
+
+.email-text {
+  font-size: calc(6px + 1vmin);
+}
+
+.profile-card {
+  background-color: beige;
+  color: coral;
+  padding: 2vmin;
+}
+
+.profile-item {
+  padding-bottom: 15px;
 }
