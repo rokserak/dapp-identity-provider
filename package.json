@@ -5,7 +5,7 @@
     "@nomiclabs/hardhat-etherscan": "^2.1.8",
     "@nomiclabs/hardhat-waffle": "^2.0.0",
     "@openzeppelin/contracts": "^3.2.0",
-    "@symfoni/hardhat-react": "^0.1.14",
+    "@symfoni/hardhat-react": "^0.3",
     "@typechain/ethers-v5": "^4.0.0",
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.0.4",
@@ -41,8 +41,8 @@
   "scripts": {
     "test": "hardhat test",
     "node": "hardhat node --watch",
-    "frontend": "cd frontend && yarn start",
-    "build": "hardhat compile",
+    "front": "cd frontend && yarn start",
+    "build": "yarn hardhat compile && yarn hardhat react",
     "lint": "prettier \"**/*.ts*\" --write && eslint --ext .ts,.tsx --fix"
   },
   "repository": {
