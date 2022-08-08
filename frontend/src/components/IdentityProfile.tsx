@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useIdentityProvider } from "../hooks";
 import { BigNumber } from "ethers";
-import { Avatar, Grid, IconButton, Tooltip } from "@mui/material";
-import { CheckCircle, Edit, Warning } from "@mui/icons-material";
+import { Avatar, Box, Card, CardContent, CardHeader, IconButton, Typography } from "@mui/material";
+import { AccountBox, Email, Badge, Code, Edit } from "@mui/icons-material";
 import { toTitleCase } from "../helpers";
 
 interface Props {
-
+  onEditClicked: () => void
 }
 
 interface IProfile {
@@ -22,13 +22,15 @@ interface IProfile {
   email_verified: boolean
 }
 
-export const IdentityProfile: React.FC<Props> = () => {
+export const IdentityProfile: React.FC<Props> = (props: Props) => {
   const identityProvider = useIdentityProvider()
   const [profile, setProfile] = useState<IProfile>()
   const [fullName, setFullName] = useState<string>("")
 
   useEffect(() => {
-    identityProvider?.get_user_info().then(info => setProfile(info))
+    identityProvider?.get_user_info()
+      .then(info => setProfile(info))
+      .catch(error => console.log(error))
   }, [identityProvider])
 
   useEffect(() => {
@@ -44,48 +46,36 @@ export const IdentityProfile: React.FC<Props> = () => {
   }, [profile])
 
   return (
-    <div className="profile-card">
-      <Grid container spacing={2}>
-        <Grid container xs={4} />
+    <Card variant="outlined">
+      <CardHeader title="Your Ethereum Profile" action={<IconButton onClick={props.onEditClicked}>
+        <Edit />
+      </IconButton>} />
 
-        <Grid container xs={4}>
-          <Grid item xs={12} className="profile-item">
-            <div>Profile <Tooltip title="Edit">
-              <IconButton>
-                <Edit />
-              </IconButton>
-            </Tooltip>
-            </div>
-          </Grid>
+      <CardContent>
+        <Box sx={{ display: "flex", alignItems: "center", paddingY: 0.5 }}>
+          <Code style={{ paddingRight: 5 }} />
+          <Typography>{profile?.sub}</Typography>
+        </Box>
 
-          <Grid item xs={10} className="profile-item">
-            <div>{profile?.nickname}</div>
-          </Grid>
-          <Grid item xs={2} className="profile-item">
-            <Avatar src={profile?.picture} alt={profile?.nickname} />
-          </Grid>
+        <Box sx={{ display: "flex", alignItems: "center", paddingY: 0.5 }}>
+          <Avatar src={profile?.picture} sx={{ width: 500, height: 500 }} />
+        </Box>
 
-          <Grid item xs={12} spacing={1} className="profile-item">
-            <div className="address-text">{profile?.sub}</div>
-          </Grid>
+        <Box sx={{ display: "flex", alignItems: "center", paddingY: 0.5 }}>
+          <Badge style={{ paddingRight: 5 }} />
+          <Typography>{profile?.nickname}</Typography>
+        </Box>
 
-          <Grid item xs={12} spacing={1} className="profile-item">
-            <div>{fullName}</div>
-          </Grid>
+        <Box sx={{ display: "flex", alignItems: "center", paddingY: 0.5 }}>
+          <AccountBox style={{ paddingRight: 5 }} />
+          <Typography>{fullName}</Typography>
+        </Box>
 
-          <Grid item xs={12} spacing={1} className="profile-item">
-            <div className="email-text">{profile?.email} {profile?.email_verified
-              ? <Tooltip title="Email verified">
-                <CheckCircle />
-              </Tooltip>
-              : <Tooltip title="Email not verified">
-                <Warning />
-              </Tooltip> }</div>
-          </Grid>
-        </Grid>
-
-        <Grid container xs={4} />
-      </Grid>
-    </div>
+        <Box sx={{ display: "flex", alignItems: "center", paddingY: 0.5 }}>
+          <Email style={{ paddingRight: 5 }} />
+          <Typography>{profile?.email}</Typography>
+        </Box>
+      </CardContent>
+    </Card>
   )
 }

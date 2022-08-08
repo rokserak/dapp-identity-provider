@@ -89,6 +89,7 @@ contract IdentityProvider {
 
   function get_name() internal view returns(string memory) {
     IdentityInternal memory info = users[msg.sender];
+    // TODO middle name
     return string(bytes.concat(bytes(info.given_name), " ", bytes(info.family_name)));
   }
 
