@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, DialogTitle, TextField } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader, FormControl,
+  IconButton,
+  TextField
+} from "@mui/material";
 import { LoadingButton } from '@mui/lab';
 import { Controller, useForm } from "react-hook-form";
 import { useIdentityProvider, useNftStorage } from "../hooks";
+import { Edit, Person } from "@mui/icons-material";
 
 interface Props {
-
+  onProfileClicked: () => void
 }
 
 interface IFormInput {
@@ -17,11 +27,12 @@ interface IFormInput {
   picture: string
 }
 
-export const IdentityForm: React.FC<Props> = () => {
+export const IdentityForm: React.FC<Props> = (props: Props) => {
   const identityProvider = useIdentityProvider()
   const storage = useNftStorage()
 
   const [loading, setLoading] = useState<boolean>(false)
+  const [alreadyExists, setAlreadyExists] = useState<boolean>(false)
 
   const { control, handleSubmit, setValue, getValues } = useForm<IFormInput>({
     defaultValues: {
@@ -56,8 +67,13 @@ export const IdentityForm: React.FC<Props> = () => {
     }
     setLoading(true)
 
-    // @ts-ignore
-    data.picture = await addFile(pictureFile)
+    if (pictureFile) {
+      // @ts-ignore
+      data.picture = await addFile(pictureFile)
+    } else {
+      data.picture = picture
+    }
+
     identityProvider.add_user(data)
       .then(tx => {
         console.log('User added')
@@ -89,6 +105,8 @@ export const IdentityForm: React.FC<Props> = () => {
       // @ts-ignore
       Object.entries(_userInfo).forEach(([key, value]) => setValue(key, value))
       console.log(userInfo)
+
+      setAlreadyExists(true)
     }).catch(console.log)
   }, [identityProvider, setValue])
 
@@ -102,69 +120,102 @@ export const IdentityForm: React.FC<Props> = () => {
   }
 
   return (
-    <div>
-      <DialogTitle>Permanently store your Identity on Ethereum</DialogTitle>
+    <Card variant="outlined">
+      <CardHeader title="Permanently store your Identity on Ethereum Platform" action={<IconButton onClick={props.onProfileClicked}>
+        <Person />
+      </IconButton>} />
 
-      <form onSubmit={handleSubmit(submitData)} className="grid-container">
-        <Controller name="nickname"
-                    control={control}
-                    render={({ field }) => <TextField className="grid-row"
-                                                          variant="standard"
-                                                          label="Username" {...field} />} />
-        <Controller name="given_name"
-                    control={control}
-                    render={({ field }) => <TextField className="grid-row"
-                                                          variant="standard"
-                                                          label="First Name" {...field} />} />
-        <Controller name="middle_name"
-                    control={control}
-                    render={({ field }) => <TextField className="grid-row"
-                                                          variant="standard"
-                                                          label="Middle Name" {...field} />} />
-        <Controller name="family_name"
-                    control={control}
-                    render={({ field }) => <TextField className="grid-row"
-                                                          variant="standard"
-                                                          label="Last Name" {...field} />} />
-        <Controller name="email"
-                    control={control}
-                    render={({ field }) => <TextField className="grid-row"
-                                                          variant="standard"
-                                                          label="Email" {...field} />} />
-        <Controller name="picture"
-                    control={control}
-                    render={({ field }) => <>
-                      <input
-                        accept="image/*"
-                        style={{ display: 'none' }}
-                        id="raised-button-file"
-                        onChange={onFileUpload}
-                        type="file"
-                        value={field.value}
-                        name={field.name}
-                        onBlur={field.onBlur}
-                        ref={field.ref} />
-                      <label htmlFor="raised-button-file">
-                        <Button variant="outlined"
-                                component="span"
-                                disabled={loading}
-                                className="grid-row">
-                          Add Profile Picture
-                        </Button>
-                      </label>
-                      </>} />
+      <CardContent>
+        <form onSubmit={handleSubmit(submitData)}>
+          <Box sx={{ display: "flex", alignItems: "center", paddingY: 1 }}>
+            <Controller name="nickname"
+                        control={control}
+                        render={({ field }) =>
+                          <FormControl fullWidth sx={{ m: 1 }}>
+                            <TextField {...field}
+                                       variant="outlined"
+                                       label="Username" />
+                          </FormControl>} />
+          </Box>
 
-        {picture && <div>
-          <Avatar src={picture} sx={{ width: 500, height: 500 }} />
-        </div>}
+          <Box sx={{ display: "flex", alignItems: "center", paddingY: 1, marginX: 1 }}>
+            <Controller name="given_name"
+                        control={control}
+                        render={({ field }) => <TextField {...field}
+                                                          style={{ marginRight: 5 }}
+                                                          variant="outlined"
+                                                          label="First Name" />} />
+            <Controller name="middle_name"
+                        control={control}
+                        render={({ field }) => <TextField {...field}
+                                                          style={{ margin: 5 }}
+                                                          variant="outlined"
+                                                          label="Middle Name" />} />
+            <Controller name="family_name"
+                        control={control}
+                        render={({ field }) => <TextField {...field}
+                                                          style={{ marginLeft: 5 }}
+                                                          variant="outlined"
+                                                          label="Last Name" />} />
+          </Box>
 
-        <LoadingButton variant="outlined"
-                       type="submit"
-                       className="grid-row"
-                       loading={loading}>
-          Submit
-        </LoadingButton>
-      </form>
-    </div>
+          <Box sx={{ display: "flex", alignItems: "center", paddingY: 1 }}>
+            <Controller name="email"
+                        control={control}
+                        render={({ field }) =>
+                          <FormControl fullWidth sx={{ m: 1 }}>
+                            <TextField {...field}
+                                       variant="outlined"
+                                       label="Email" />
+                          </FormControl>} />
+          </Box>
+
+          <Box sx={{ display: "flex", justifyContent: "center", paddingY: 1 }}>
+            {picture && <div>
+              <Avatar src={picture} sx={{ width: 500, height: 500 }} />
+            </div>}
+
+            <Controller name="picture"
+                        control={control}
+                        render={({ field }) => <>
+                          <input
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            id="raised-button-file"
+                            onChange={onFileUpload}
+                            type="file"
+                            value={field.value}
+                            name={field.name}
+                            onBlur={field.onBlur}
+                            ref={field.ref} />
+                          <label htmlFor="raised-button-file">
+                            {picture
+                              ? <IconButton disabled={loading}
+                                            component="span">
+                                  <Edit />
+                                </IconButton>
+                              : <Button variant="outlined"
+                                       component="span"
+                                       disabled={loading}>
+                                Add Profile Picture
+                               </Button>
+                            }
+                          </label>
+                        </>} />
+          </Box>
+
+          <Box sx={{ display: "flex", alignItems: "center", paddingY: 1 }}>
+            <FormControl fullWidth sx={{ m: 1 }}>
+              <LoadingButton variant="outlined"
+                             type="submit"
+                             className="grid-row"
+                             loading={loading}>
+                {alreadyExists ? 'Update' : 'Upload'}
+              </LoadingButton>
+            </FormControl>
+          </Box>
+        </form>
+      </CardContent>
+    </Card>
   )
 }

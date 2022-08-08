@@ -11,12 +11,16 @@ function App() {
     setShowContext('edit-form')
   }
 
+  const goToProfile = () => {
+    setShowContext('profile-form')
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <Symfoni autoInit={true}>
           {showContext === 'edit-form'
-            ? <IdentityForm />
+            ? <IdentityForm onProfileClicked={goToProfile} />
             : <IdentityProfile onEditClicked={goToEdit} />
           }
         </Symfoni>
