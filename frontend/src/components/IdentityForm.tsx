@@ -71,10 +71,10 @@ export const IdentityForm: React.FC<Props> = (props: Props) => {
       // @ts-ignore
       data.picture = await addFile(pictureFile)
     } else {
-      data.picture = picture
+      data.picture = picture || '#'
     }
 
-    identityProvider.add_user(data)
+    identityProvider.addUser(data)
       .then(tx => {
         console.log('User added')
         tx.wait().then(() => {
@@ -92,7 +92,7 @@ export const IdentityForm: React.FC<Props> = (props: Props) => {
       return
     }
 
-    identityProvider.get_user_info().then((userInfo: IFormInput) => {
+    identityProvider.getUserInfo().then((userInfo: IFormInput) => {
       const _userInfo = Object.assign({}, userInfo)
       console.log(userInfo.picture)
 
@@ -106,7 +106,10 @@ export const IdentityForm: React.FC<Props> = (props: Props) => {
       Object.entries(_userInfo).forEach(([key, value]) => setValue(key, value))
       console.log(userInfo)
 
-      setAlreadyExists(true)
+      // @ts-ignore
+      if (userInfo?.updated_at?.toNumber() > 0) {
+        setAlreadyExists(true)
+      }
     }).catch(console.log)
   }, [identityProvider, setValue])
 

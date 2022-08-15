@@ -2,30 +2,22 @@ import { expect } from 'chai'
 import { ethers } from 'hardhat'
 
 describe('IdentityProvider', function () {
-  it('Add User with Params', async function () {
+  it('Add User', async function () {
     const IdentityProvider = await ethers.getContractFactory('IdentityProvider')
     const provider = await IdentityProvider.deploy()
     await provider.deployed()
 
-    const addUserTx = await provider.add_user2('rokserak', 'Rok', 'Serak')
-    await addUserTx.wait()
-
-    expect(await provider.user_count()).to.be.equal(1)
-  })
-
-  it('Add User with Struct', async function () {
-    const IdentityProvider = await ethers.getContractFactory('IdentityProvider')
-    const provider = await IdentityProvider.deploy()
-    await provider.deployed()
-
-    const addUserTx = await provider.add_user({
-      name: 'rokserak',
+    const addUserTx = await provider.addUser({
+      nickname: 'rokserak',
       given_name: 'Rok',
+      middle_name: '',
       family_name: 'Serak',
+      email: 'rok.serak@gmail.com',
+      picture: '#',
     })
     await addUserTx.wait()
 
-    expect(await provider.user_count()).to.be.equal(1)
+    expect(await provider.userCount()).to.be.equal(1)
   })
 
   it('Get Users Information', async function () {
@@ -33,16 +25,21 @@ describe('IdentityProvider', function () {
     const provider = await IdentityProvider.deploy()
     await provider.deployed()
 
-    const updateUserTx = await provider.add_user2('rokserak', 'Rok', 'Serak')
-    await updateUserTx.wait()
+    const addUserTx = await provider.addUser({
+      nickname: 'rokserak',
+      given_name: 'Rok',
+      middle_name: '',
+      family_name: 'Serak',
+      email: 'rok.serak@gmail.com',
+      picture: '#',
+    })
+    await addUserTx.wait()
 
-    const info = await provider.get_user_info()
-    expect(info.name).to.be.equal('rokserak')
+    const info = await provider.getUserInfo()
+    expect(info.nickname).to.be.equal('rokserak')
     expect(info.given_name).to.be.equal('Rok')
     expect(info.family_name).to.be.equal('Serak')
-
-    expect(await provider.get_name()).to.be.equal('rokserak')
-    expect(await provider.get_full_name()).to.be.equal('Rok Serak')
+    expect(info.name).to.be.equal('Rok Serak')
   })
 
   it('Update User with Struct', async function () {
@@ -50,28 +47,37 @@ describe('IdentityProvider', function () {
     const provider = await IdentityProvider.deploy()
     await provider.deployed()
 
-    const addUserTx = await provider.add_user({
-      name: 'rokserak',
+    const addUserTx = await provider.addUser({
+      nickname: 'rokserak',
       given_name: 'Rok',
+      middle_name: '',
       family_name: 'Serak',
+      email: 'rok.serak@gmail.com',
+      picture: '#',
     })
     await addUserTx.wait()
 
-    let info = await provider.get_user_info()
-    expect(info.name).to.be.equal('rokserak')
+    let info = await provider.getUserInfo()
+    expect(info.nickname).to.be.equal('rokserak')
     expect(info.given_name).to.be.equal('Rok')
     expect(info.family_name).to.be.equal('Serak')
 
-    const updateUserTx = await provider.update_user({
-      name: 'johndoe',
+    const updateUserTx = await provider.updateUser({
+      nickname: 'johndoe',
       given_name: 'John',
+      middle_name: '',
       family_name: 'Doe',
+      email: '',
+      picture: '',
     })
     await updateUserTx.wait()
 
-    info = await provider.get_user_info()
-    expect(info.name).to.be.equal('johndoe')
+    info = await provider.getUserInfo()
+    expect(info.nickname).to.be.equal('johndoe')
     expect(info.given_name).to.be.equal('John')
     expect(info.family_name).to.be.equal('Doe')
+    expect(info.name).to.be.equal('John Doe')
+    expect(info.email).to.be.equal('')
+    expect(info.picture).to.be.equal('')
   })
 })

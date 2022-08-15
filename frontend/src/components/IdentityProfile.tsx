@@ -3,7 +3,6 @@ import { useIdentityProvider } from "../hooks";
 import { BigNumber } from "ethers";
 import { Avatar, Box, Card, CardContent, CardHeader, IconButton, Typography } from "@mui/material";
 import { AccountBox, Email, Badge, Code, Edit } from "@mui/icons-material";
-import { toTitleCase } from "../helpers";
 
 interface Props {
   onEditClicked: () => void
@@ -25,25 +24,12 @@ interface IProfile {
 export const IdentityProfile: React.FC<Props> = (props: Props) => {
   const identityProvider = useIdentityProvider()
   const [profile, setProfile] = useState<IProfile>()
-  const [fullName, setFullName] = useState<string>("")
 
   useEffect(() => {
-    identityProvider?.get_user_info()
+    identityProvider?.getUserInfo()
       .then(info => setProfile(info))
       .catch(error => console.log(error))
   }, [identityProvider])
-
-  useEffect(() => {
-    if (!profile) {
-      return
-    }
-
-    if (profile.middle_name) {
-      setFullName(`${toTitleCase(profile.given_name)} ${toTitleCase(profile.middle_name)} ${toTitleCase(profile.family_name)}`)
-    } else {
-      setFullName(`${toTitleCase(profile.given_name)} ${toTitleCase(profile.family_name)}`)
-    }
-  }, [profile])
 
   return (
     <Card variant="outlined">
@@ -54,7 +40,7 @@ export const IdentityProfile: React.FC<Props> = (props: Props) => {
       <CardContent>
         <Box sx={{ display: "flex", alignItems: "center", paddingY: 0.5 }}>
           <Code style={{ paddingRight: 5 }} />
-          <Typography>{profile?.sub}</Typography>
+          <Typography>{profile?.sub || 'No profile found'}</Typography>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", paddingY: 0.5 }}>
@@ -63,17 +49,17 @@ export const IdentityProfile: React.FC<Props> = (props: Props) => {
 
         <Box sx={{ display: "flex", alignItems: "center", paddingY: 0.5 }}>
           <Badge style={{ paddingRight: 5 }} />
-          <Typography>{profile?.nickname}</Typography>
+          <Typography>{profile?.nickname || 'Undefined'}</Typography>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", paddingY: 0.5 }}>
           <AccountBox style={{ paddingRight: 5 }} />
-          <Typography>{fullName}</Typography>
+          <Typography>{profile?.name || 'Undefined'}</Typography>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", paddingY: 0.5 }}>
           <Email style={{ paddingRight: 5 }} />
-          <Typography>{profile?.email}</Typography>
+          <Typography>{profile?.email || 'Undefined'}</Typography>
         </Box>
       </CardContent>
     </Card>

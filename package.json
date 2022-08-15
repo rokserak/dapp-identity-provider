@@ -43,12 +43,14 @@
     "node": "hardhat node --watch",
     "front": "cd frontend && yarn start",
     "build": "yarn hardhat compile && yarn hardhat react",
-    "lint": "prettier \"**/*.ts*\" --write && eslint --ext .ts,.tsx --fix"
+    "lint": "prettier \"**/*.ts*\" --write && eslint --ext .ts,.tsx --fix",
+    "deploy": "hardhat deploy",
+    "deploy:goerli": "hardhat deploy --network goerli"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rokserak/dapp-identity-provider.git"
   },
   "author": "rokserak",
-  "license": "GPL-3.0-only"
+  "license": "GPL-3.0-or-later"
 }
