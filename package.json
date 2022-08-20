@@ -45,7 +45,8 @@
     "build": "yarn hardhat compile && yarn hardhat react",
     "lint": "prettier \"**/*.ts*\" --write && eslint --ext .ts,.tsx --fix",
     "deploy": "hardhat deploy",
-    "deploy:goerli": "hardhat deploy --network goerli"
+    "deploy:goerli": "hardhat deploy --network goerli",
+    "start": "cd frontend && yarn && yarn start"
   },
   "repository": {
     "type": "git",
